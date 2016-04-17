@@ -20,7 +20,7 @@ public enum Auth0LoginComponentError: ErrorType {
 }
 
 /// Drop in login component that internally uses `auth0` authentication mechanisms.
-public class Auth0LoginComponent {
+@objc public class Auth0LoginComponent: NSObject {
    // MARK: Properties
    private static let UrlSession: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
    private class var Auth0URL: NSURL? {
