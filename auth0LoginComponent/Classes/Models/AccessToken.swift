@@ -15,7 +15,7 @@ public struct AccessToken {
    let idToken: String
    let tokenType: String
    
-   func toDictionary() -> [String: String] {
+   public func toDictionary() -> [String: String] {
       return [
          "accessToken": accessToken,
          "idToken": idToken,
