@@ -35,7 +35,7 @@ bundle: ## Retrieves all the GEMS listed on the Gemfile and installs the resulti
 	bundle install --path="./vendor"
 
 pod: ## Executes the bundled gem \033[35m`cocoapods` \033[0mcommand \033[35m`pod install`. \033[0mInstalls missings pods to the Workdspace
-	bundle exec pod install
+	bundle exec pod install --project-directory=Example
 
 countLOC: ## Counts the number of lines of code on each class in the project sorted from biggest to smallest.
 	find Lovecalls -name "*.swift" -exec wc -l "{}" \; | sort -rn
