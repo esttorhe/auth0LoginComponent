@@ -57,6 +57,8 @@ public enum Auth0LoginComponentError: ErrorType {
             if let auth0Bundle = NSBundle(URL: bundleURL) {
                let loginVC                        = LoginComponentViewController(nibName: "LoginComponent", bundle: auth0Bundle)
                loginVC.uiConfiguration            = uiConfiguration
+               loginVC.successHandler             = successHandler
+               loginVC.errorHandler               = errorHandler
                loginVC.dismissLoginViewController = {
                   presenter.dismissViewControllerAnimated(true, completion: nil)
                }
