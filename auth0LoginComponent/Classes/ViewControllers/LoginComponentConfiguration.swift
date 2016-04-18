@@ -48,7 +48,7 @@ import UIKit
       self.backgroundColor       = backgroundColor
    }
    
-   static func DefaultConfiguration() -> LoginComponentConfiguration {
+   @objc public static func DefaultConfiguration() -> LoginComponentConfiguration {
       if #available(iOS 9.0, *) {
          return LoginComponentConfiguration(
             headerFont: UIFont.preferredFontForTextStyle(UIFontTextStyleTitle1),
