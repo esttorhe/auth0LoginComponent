@@ -69,6 +69,22 @@ public enum Auth0LoginComponentError: ErrorType {
       }
    }
    
+   public static func createLoginViewControllerWithPresenterController(presenter: UIViewController, uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), successHandler:(AccessToken)->(), errorHandler:(ErrorType)->()) -> LoginComponentViewController? {
+      let podBundle = NSBundle(forClass: LoginComponentViewController.self)
+      if let bundleURL = podBundle.URLForResource("auth0LoginComponent", withExtension: "bundle") {
+         if let auth0Bundle = NSBundle(URL: bundleURL) {
+            let loginVC                        = LoginComponentViewController(nibName: "LoginComponent", bundle: auth0Bundle)
+            loginVC.uiConfiguration            = uiConfiguration
+            loginVC.successHandler             = successHandler
+            loginVC.errorHandler               = errorHandler
+            
+            return loginVC
+         }
+      }
+      
+      return nil
+   }
+   
    public static func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
       return LinkedInWrapper.application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
    }

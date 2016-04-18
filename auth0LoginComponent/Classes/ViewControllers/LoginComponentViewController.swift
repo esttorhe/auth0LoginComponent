@@ -10,7 +10,7 @@
 // UI
 import UIKit
 
-internal class LoginComponentViewController: UIViewController {
+public class LoginComponentViewController: UIViewController {
    // MARK: UI Properties
    @IBOutlet weak var titleLabel: UILabel!
    @IBOutlet weak var usernameLabel: UILabel!
@@ -29,7 +29,7 @@ internal class LoginComponentViewController: UIViewController {
    var uiConfiguration: LoginComponentConfiguration? = nil
    
    // MARK: Regular Life Cycle
-   override func viewDidLoad() -> Void {
+   override public func viewDidLoad() -> Void {
       self.configureUI()
    }
    
