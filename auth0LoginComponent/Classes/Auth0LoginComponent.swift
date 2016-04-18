@@ -69,14 +69,18 @@ public enum Auth0LoginComponentError: ErrorType {
       }
    }
    
-   public static func createLoginViewControllerWithPresenterController(presenter: UIViewController, uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), successHandler:(AccessToken)->(), errorHandler:(ErrorType)->()) -> LoginComponentViewController? {
+   @objc public static func createLoginViewController(uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), successHandler:([String: String])->(), errorHandler:(NSError)->()) -> LoginComponentViewController? {
       let podBundle = NSBundle(forClass: LoginComponentViewController.self)
       if let bundleURL = podBundle.URLForResource("auth0LoginComponent", withExtension: "bundle") {
          if let auth0Bundle = NSBundle(URL: bundleURL) {
             let loginVC                        = LoginComponentViewController(nibName: "LoginComponent", bundle: auth0Bundle)
             loginVC.uiConfiguration            = uiConfiguration
-            loginVC.successHandler             = successHandler
-            loginVC.errorHandler               = errorHandler
+            loginVC.successHandler             = { accessToken in
+               successHandler(accessToken.toDictionary())
+            }
+            loginVC.errorHandler               = { error in
+               errorHandler(error as NSError)
+            }
             
             return loginVC
          }

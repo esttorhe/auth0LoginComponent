@@ -18,7 +18,7 @@ import UIKit
  *
  *  @since 0.1.0
  */
-public struct LoginComponentConfiguration {
+@objc public final class LoginComponentConfiguration: NSObject {
    // MARK: Fonts
    let headerFont: UIFont
    let captionFont: UIFont
@@ -33,6 +33,20 @@ public struct LoginComponentConfiguration {
    let buttonTextColor: UIColor
    let spacerBackgroundColor: UIColor
    let backgroundColor: UIColor
+   
+   init(headerFont: UIFont, captionFont: UIFont, textFieldFont: UIFont, buttonFont: UIFont, headerTextColor: UIColor, captionTextColor: UIColor,
+        textFieldTextColor: UIColor, buttonTextColor: UIColor, spacerBackgroundColor: UIColor, backgroundColor: UIColor) {
+      self.headerFont            = headerFont
+      self.captionFont           = captionFont
+      self.textFieldFont         = textFieldFont
+      self.buttonFont            = buttonFont
+      self.headerTextColor       = headerTextColor
+      self.captionTextColor      = captionTextColor
+      self.textFieldTextColor    = textFieldTextColor
+      self.buttonTextColor       = buttonTextColor
+      self.spacerBackgroundColor = spacerBackgroundColor
+      self.backgroundColor       = backgroundColor
+   }
    
    static func DefaultConfiguration() -> LoginComponentConfiguration {
       if #available(iOS 9.0, *) {
