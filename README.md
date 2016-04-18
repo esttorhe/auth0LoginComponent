@@ -7,6 +7,17 @@
 
 ## Usage
 
+Just import `auth0LoginComponent` into your `UIViewController` ad call:
+```swift
+Auth0LoginComponent.presentLoginViewControllerWithPresenterController(self, successHandler: { token in
+  // Store the token      
+  }, errorHandler: { error in
+    // Receive an `ErrorType` object.
+  })
+```
+
+## Example
+
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
