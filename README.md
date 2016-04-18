@@ -52,6 +52,22 @@ Here's an extract of the important parts:
 >Once complete, your application properties should look like this:
 >![](https://content.linkedin.com/content/dam/developer/global/en_US/site/img/xcode-application-properties.png)
 
+### `auth0`
+Follow the instructions from the [`auth0` `API` docs](https://auth0.com/docs/quickstart/native-mobile/ios-swift/no-api).
+Important parts are here:
+
+>#### Configure Auth0 Lock for iOS
+>
+>Add the following entries to your app's `Info.plist`:
+>
+>|**Key**|**Value**|
+>|----|--------|
+>|**Auth0ClientId**|*`<Your Auth0 ClientId>`*|
+>|**Auth0Domain**|*`<Your Auth0 Domain>`*|
+>
+>Also you'll need to register a new *URL Type* with the following scheme *`<Your url scheme>`*. You can do this in your App's Target menu, in the Info section.
+>![](https://cloudup.com/cwoiCwp7ZfA+)
+
 ## Installation
 
 authLoginComponent is available through [CocoaPods](http://cocoapods.org). To install
