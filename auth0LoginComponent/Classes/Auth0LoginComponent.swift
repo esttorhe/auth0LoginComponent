@@ -48,7 +48,7 @@ public enum Auth0LoginComponentError: ErrorType {
     - parameter presenter:       The `UIViewController` used as the presenter for the login view controller.
     - parameter uiConfiguration: The `LoginComponentConfiguration` object detailing the `UI` details for the controller.
     - parameter successHandler:  Success closure that will be called upon successful authentication. Passses the generated `AccessToken` object.
-    - parameter errorHandler:    Error closuer that gets called if something fails. Passes `Auth0LoginComponentError`s.
+    - parameter errorHandler:    Error closure that gets called if something fails. Passes `Auth0LoginComponentError`s.
     */
    public static func presentLoginViewControllerWithPresenterController(presenter: UIViewController, uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), successHandler:(AccessToken)->(), errorHandler:(ErrorType)->()) -> Void {
       dispatch_async(dispatch_get_main_queue()) {
@@ -69,7 +69,17 @@ public enum Auth0LoginComponentError: ErrorType {
       }
    }
    
-   @objc public static func createLoginViewController(uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), successHandler:([String: String])->(), errorHandler:(NSError)->()) -> LoginComponentViewController? {
+   /**
+    Creates a new `LoginComponentViewController` but doesn't presents it but returns it instead.
+    
+    - parameter uiConfiguration: The `LoginComponentConfiguration` object detailing the `UI` details for the controller.
+    - parameter successHandler:  Success closure that will be called upon successful authentication. Passses the generated `AccessToken` object.
+    - parameter errorHandler:    Error closure that gets called if something fails. Passes `Auth0LoginComponentError`s.
+    - parameter cancelHandler:   Cancel closure that gets called when the `LoginComponentViewController` gets a touch event on the `Cancel` button.
+    
+    - returns: A fully initialized `LoginComponentViewController` with the passed in closures as parameters or `nil` if there's an error.
+    */
+   @objc public static func createLoginViewController(uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), successHandler:([String: String])->(), errorHandler:(NSError)->(), cancelHandler:()->()) -> LoginComponentViewController? {
       let podBundle = NSBundle(forClass: LoginComponentViewController.self)
       if let bundleURL = podBundle.URLForResource("auth0LoginComponent", withExtension: "bundle") {
          if let auth0Bundle = NSBundle(URL: bundleURL) {
@@ -81,6 +91,7 @@ public enum Auth0LoginComponentError: ErrorType {
             loginVC.errorHandler               = { error in
                errorHandler(error as NSError)
             }
+            loginVC.dismissLoginViewController = cancelHandler
             
             return loginVC
          }
