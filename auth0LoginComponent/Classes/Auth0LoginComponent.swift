@@ -198,13 +198,13 @@ internal extension Auth0LoginComponent {
                let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
                guard let at = object["access_token"] as? String,
                   let idt = object["id_token"] as? String,
-                  let bearer = object["token_type"] as? String else {
+                  let tokenType = object["token_type"] as? String else {
                      errorHandler(error: Auth0LoginComponentError.UnableToDecodeAccessToken)
                      
                      return
                }
                
-               let accessToken = AccessToken(accessToken: at, idToken: idt, tokenType: bearer)
+               let accessToken = AccessToken(accessToken: at, idToken: idt, tokenType: tokenType)
                completionHandler(accessToken: accessToken)
             } catch {
                errorHandler(error: Auth0LoginComponentError.CannotSerializeResponse(error))

@@ -10,12 +10,18 @@
 // Foundation
 import Foundation
 
-public struct AccessToken {
+@objc public final class AccessToken: NSObject {
    let accessToken: String
    let idToken: String
    let tokenType: String
    
-   public func toDictionary() -> [String: String] {
+   init(accessToken: String, idToken: String, tokenType: String) {
+      self.accessToken = accessToken
+      self.idToken     = idToken
+      self.tokenType   = tokenType
+   }
+   
+   @objc public func toDictionary() -> [String: String] {
       return [
          "accessToken": accessToken,
          "idToken": idToken,
