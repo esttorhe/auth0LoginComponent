@@ -50,7 +50,7 @@ public enum Auth0LoginComponentError: ErrorType {
     - parameter successHandler:  Success closure that will be called upon successful authentication. Passses the generated `AccessToken` object.
     - parameter errorHandler:    Error closure that gets called if something fails. Passes `Auth0LoginComponentError`s.
     */
-   public static func presentLoginViewControllerWithPresenterController(presenter: UIViewController, uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), successHandler:(AccessToken)->(), errorHandler:(ErrorType)->()) -> Void {
+   public static func presentLoginViewControllerWithPresenterController(presenter: UIViewController, uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), scope: String="openid", successHandler:(AccessToken)->(), errorHandler:(ErrorType)->()) -> Void {
       dispatch_async(dispatch_get_main_queue()) {
          let podBundle = NSBundle(forClass: LoginComponentViewController.self)
          if let bundleURL = podBundle.URLForResource("auth0LoginComponent", withExtension: "bundle") {
@@ -79,7 +79,7 @@ public enum Auth0LoginComponentError: ErrorType {
     
     - returns: A fully initialized `LoginComponentViewController` with the passed in closures as parameters or `nil` if there's an error.
     */
-   @objc public static func createLoginViewController(uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), successHandler:([String: String])->(), errorHandler:(NSError)->(), cancelHandler:()->()) -> LoginComponentViewController? {
+   @objc public static func createLoginViewController(uiConfiguration: LoginComponentConfiguration=LoginComponentConfiguration.DefaultConfiguration(), scope: String="openid", successHandler:([String: String])->(), errorHandler:(NSError)->(), cancelHandler:()->()) -> LoginComponentViewController? {
       let podBundle = NSBundle(forClass: LoginComponentViewController.self)
       if let bundleURL = podBundle.URLForResource("auth0LoginComponent", withExtension: "bundle") {
          if let auth0Bundle = NSBundle(URL: bundleURL) {
@@ -148,7 +148,7 @@ internal extension Auth0LoginComponent {
     - parameter successHandler: The closure that will be called upon receiving a correct response from `auth0`.
     - parameter errorHandler:   Error handler in case of an error. Sends back `Auth0LoginComponentError`s.
     */
-   static func authenticateWithUsername(username: String, password: String, successHandler:(accessToken: AccessToken) -> (), errorHandler:(error: ErrorType) -> ()) -> Void {
+   static func authenticateWithUsername(username: String, password: String, scope: String="openid", successHandler:(accessToken: AccessToken) -> (), errorHandler:(error: ErrorType) -> ()) -> Void {
       do {
          let parameters = [
             "client_id": Auth0ClientId!,
@@ -156,7 +156,7 @@ internal extension Auth0LoginComponent {
             "password": password,
             "connection": "Username-Password-Authentication",
             "grant_type": "password",
-            "scope": "openid name email"
+            "scope": scope
          ]
          
          let dataTask = try createDataTaskWithPathComponent("ro", andParameters: parameters, completionHandler: { (accessToken) in
@@ -208,13 +208,12 @@ internal extension Auth0LoginComponent {
             do {
                let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
                guard let at = object["access_token"] as? String,
-                  let idt = object["id_token"] as? String,
                   let tokenType = object["token_type"] as? String else {
                      errorHandler(error: Auth0LoginComponentError.UnableToDecodeAccessToken)
-                     
                      return
                }
                
+               let idt = object["id_token"] as? String
                let accessToken = AccessToken(accessToken: at, idToken: idt, tokenType: tokenType)
                completionHandler(accessToken: accessToken)
             } catch {

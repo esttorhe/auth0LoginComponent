@@ -23,10 +23,11 @@ public class LoginComponentViewController: UIViewController {
    @IBOutlet weak var loaderView: UIActivityIndicatorView!
    
    // MARK: Properties
-   var dismissLoginViewController: (() -> ())? = nil
-   var successHandler: ((AccessToken)->())?    = nil
-   var errorHandler: ((ErrorType)->())?        = nil
+   var dismissLoginViewController: (() -> ())?       = nil
+   var successHandler: ((AccessToken)->())?          = nil
+   var errorHandler: ((ErrorType)->())?              = nil
    var uiConfiguration: LoginComponentConfiguration? = nil
+   var scope: String                                 = "openid"
    
    // MARK: Regular Life Cycle
    override public func viewDidLoad() -> Void {
