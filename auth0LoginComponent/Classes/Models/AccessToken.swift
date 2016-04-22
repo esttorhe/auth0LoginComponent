@@ -12,20 +12,25 @@ import Foundation
 
 @objc public final class AccessToken: NSObject {
    let accessToken: String
-   let idToken: String
+   let idToken: String?
    let tokenType: String
    
-   init(accessToken: String, idToken: String, tokenType: String) {
+   init(accessToken: String, idToken: String?, tokenType: String) {
       self.accessToken = accessToken
       self.idToken     = idToken
       self.tokenType   = tokenType
    }
    
    @objc public func toDictionary() -> [String: String] {
-      return [
+      var dictionary = [
          "accessToken": accessToken,
-         "idToken": idToken,
          "tokenType": tokenType
       ]
+      
+      if let idToken = self.idToken {
+         dictionary["idToken"] = idToken
+      }
+      
+      return dictionary
    }
 }
